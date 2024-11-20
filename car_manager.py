@@ -11,9 +11,13 @@ class CarManager(Turtle):
         self.all_cars = []
         self.car_speed = STARTING_MOVE_DISTANCE
         self.hideturtle()
+        self.base_chance = 4  # Base denominator for car creation probability
 
     def create_car(self):
-        random_chance = random.randint(1, 4)  # Changed from (1,6) to (1,4) to increase car frequency
+        # Adjust car creation chance based on speed
+        speed_factor = self.car_speed / STARTING_MOVE_DISTANCE
+        adjusted_chance = max(2, int(self.base_chance / speed_factor))  # More cars at higher speeds, minimum 1/2 chance
+        random_chance = random.randint(1, adjusted_chance)
         if random_chance == 1:
             new_car = Turtle("square")
             new_car.showturtle()
